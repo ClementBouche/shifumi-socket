@@ -1,6 +1,10 @@
 'use strict';
 
 const Message = require('../models/MessageSchema');
+const md = require('markdown-it')({
+  html: true,
+  breaks: true,
+});
 
 exports.list = function(room) {
   return Message.find({
@@ -9,8 +13,9 @@ exports.list = function(room) {
 }
 
 exports.save = function(msg) {
+  const newContent = md.render(msg.content);
   const newMessage = new Message({
-    content: msg.content,
+    content: newContent,
     room: msg.room,
     sender: 'Anonymous',
   });

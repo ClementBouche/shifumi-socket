@@ -30,9 +30,10 @@ io.on('connection', (socket) => {
 
   socket.on('addMessage', msg => {
     MessageController.save(msg).then((newMessage) => {
-      socket.to(newMessage.room).emit('message', newMessage);
+      // socket.emit('message', newMessage);
+      // socket.to(newMessage.room).emit('message', newMessage);
+      io.in(newMessage.room).emit('message', newMessage);
     });
-    // socket.broadcast.emit('message', newMessage);
   });
 
   socket.on('editMessage', msg => {
@@ -43,7 +44,7 @@ io.on('connection', (socket) => {
 
   socket.on('removeMessage', msg => {
     MessageController.delete(msg).then(() => {
-      socket.to(msg.room).emit('messageDeleted', msg);
+      io.in(msg.room).emit('messageDeleted', msg);
     });
   });
 
