@@ -17,7 +17,7 @@ exports.save = function(msg) {
   const newMessage = new Message({
     content: newContent,
     room: msg.room,
-    sender: 'Anonymous',
+    sender: msg.sender,
   });
   return newMessage.save();
 }
